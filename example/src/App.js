@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Map, TileLayer, ZoomControl } from 'react-leaflet'
+import { Map, TileLayer } from 'react-leaflet'
 
 import { CoordinatesControl } from 'react-leaflet-box-zoom'
 
@@ -20,11 +20,9 @@ export default class App extends Component {
 							attribution=""
 							url="https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"/>
 				
-						<ZoomControl position="topright" />
-
 						<CoordinatesControl 
+							coordinates="degrees"
 							position="bottomleft"
-							ref={(ref) => this.coordinatesControl = ref}
 						/>
 
 					</Map>
