@@ -40,10 +40,7 @@ render () {
             attribution="Google Maps"
             url="https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"/>
 
-          <CoordinatesControl 
-             position="bottomleft"
-             coordinates="degrees"
-          />
+          <CoordinatesControl />
         </Map>
       </div>
     )
@@ -55,8 +52,8 @@ render () {
 
 Name | Default | Description
 --- | --- | ---
-position | `topleft` | Position of the control.  Valid values are `topleft`, `topright`, `bottomleft`, or `bottomright`
-style | | A react css style prop for the button.
+position | `bottomleft` | Position of the control.  Valid values are `topleft`, `topright`, `bottomleft`, or `bottomright`
+style | `null` | A react css style prop for the button.
 coordinates | `decimal` | Coordinate system to use.  Valid values are `decimal` (decimal lat/lng) or `degrees` (degrees, minutes, seconds)
 
 
