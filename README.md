@@ -41,7 +41,7 @@ render () {
             url="https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"/>
 
           <CoordinatesControl 
-			 position="bottomleft"
+             position="bottomleft"
              coordinates="degrees"
           />
         </Map>
