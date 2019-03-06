@@ -44,11 +44,11 @@ L.Control.CoordinateControl = L.Control.extend({
 
 		map.on('mousemove', (e) => {
 			if (this._coordinates === 'degrees') {
-				coordinateButton.innerHTML = "<strong>Latitude:</strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude:</strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
+				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				coordinateButton.innerHTML = "<strong>Latitude:</strong>" +lat + ", <strong>Longitude:</strong>" + lng;
+				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + ", <strong>Longitude: </strong>" + lng;
 			}
 		});
 

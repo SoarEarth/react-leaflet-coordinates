@@ -23,7 +23,6 @@ export default class App extends Component {
 						<ZoomControl position="topright" />
 
 						<CoordinatesControl 
-							coordinates="degrees"
 							position="bottomleft"
 							ref={(ref) => this.coordinatesControl = ref}
 						/>
