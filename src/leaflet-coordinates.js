@@ -48,7 +48,7 @@ L.Control.CoordinateControl = L.Control.extend({
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + ", <strong>Longitude: </strong>" + lng;
+				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
 			}
 		});
 
