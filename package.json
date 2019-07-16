@@ -1,5 +1,5 @@
 {
-  "name": "react-leaflet-coordinates",
+  "name": "@takor/react-leaflet-coordinates",
   "version": "1.0.1",
   "description": "React Leaflet control to show the coordinates under the cursor",
   "author": "ChrisLowe-Takor",
