@@ -2,7 +2,7 @@
 
 > A react-leaflet control to display the coordinates under the cursor
 
-[![NPM](https://img.shields.io/npm/v/rreact-leaflet-box-zoom.svg)](https://www.npmjs.com/package/react-leaflet-coordinate) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/react-leaflet-coordinates.svg)](https://www.npmjs.com/package/react-leaflet-coordinates) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ### About
 
@@ -12,7 +12,7 @@ A react-leaflet control to display the coordinates under the cursor.  Supports d
 
 
 ```
-npm install --save react-leaflet-coordinate
+npm install --save react-leaflet-coordinates
 yarn install
 ```
 
@@ -24,7 +24,7 @@ Simply import the `CoordinateControl` and place as a child of the `Map` componen
 import React, { Component } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 
-import { CoordinatesControl } from 'react-leaflet-box-zoom'
+import { CoordinatesControl } from 'react-leaflet-coordinates'
 
 export default class App extends Component {
 
