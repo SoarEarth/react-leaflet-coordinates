@@ -42,19 +42,19 @@ L.Control.CoordinateControl = L.Control.extend({
 		coordinateButton.setAttribute('style',this._style);
 		coordinateButton.setAttribute('id', 'coorindate-control');
 
-		// map.on('mousemove', (e) => {
-		// 	if (this._coordinates === 'degrees') {
-		// 		coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
-		// 	} else {
-		// 		var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-		// 		var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-		// 		coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
-		// 	}
-		// });
+		map.on('mousemove', (e) => {
+			if (this._coordinates === 'degrees') {
+				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
+			} else {
+				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
+				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
+				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
+			}
+		});
 
 		map.on('mousemove', (e) => {
 			if (this._coordinates === 'decimal') {
-				coordinateButton.innerHTML = "<strong>MGRS: </strong>" +  this.convertDDtoMGRS(e.latlng.lat, e.latlng.lng);
+				coordinateButton.innerHTML = "<strong>MGRS: </strong>" +  this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat);
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
@@ -90,10 +90,22 @@ L.Control.CoordinateControl = L.Control.extend({
 			sec :(0|D*60%1*6000)/100
 		};
 	},
-	convertDDtoMGRS: function(lat, lng) { 
+	convertDDtoMGRS: function(lng, lat) { 
 		var mgrs = require("mgrs")
-		return (mgrs.forward([lat,lng]));	
-		},
+		var mgrsString = (mgrs.forward([lng,lat]));
+		mgrsString = mgrsString.substring(0,2) + " "
+			+ mgrsString.substring(2,5) + " "
+			+ mgrsString.substring(5,10) + " "
+			+ mgrsString.substring(10);
+		return mgrsString;	
+	},
+	convertMGRStoDD: function() {
+		var mgrs = require("mgrs")
+		var mgrsString = (mgrs.toPoint([lng,lat]));
+		return mgrsString;
+
+	}
+
 });
 
 L.control.coordinateControl = (opts) => {
@@ -118,6 +130,6 @@ export default withLeaflet(CoordinatesControl);
 
 CoordinatesControl.propTypes = {
 	style: PropTypes.element,
-	coordinates: PropTypes.oneOf(['decimal', 'degrees']),
+	coordinates: PropTypes.oneOf(['decimal', 'degrees', 'mgrs']),
 	position: PropTypes.oneOf(['topright', 'topleft', 'bottomright', 'bottomleft'])
 }
