@@ -110,6 +110,10 @@ class CoordinatesControl extends MapControl {
 		this.control = L.control.coordinateControl({...props});
 		return this.control;
 	}
+
+	updateLeafletElement(fromProps, toProps) {
+		
+	}
 }
 
 export default withLeaflet(CoordinatesControl);
