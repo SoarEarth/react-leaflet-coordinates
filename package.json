@@ -60,6 +60,8 @@
     "dist"
   ],
   "dependencies": {
+    "mgrs": "^1.0.0",
+    "proj4": "^2.6.2",
     "react-style-object-to-css": "^1.1.2"
   }
 }
