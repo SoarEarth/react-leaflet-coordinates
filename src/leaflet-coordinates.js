@@ -42,15 +42,26 @@ L.Control.CoordinateControl = L.Control.extend({
 		coordinateButton.setAttribute('style',this._style);
 		coordinateButton.setAttribute('id', 'coorindate-control');
 
+		// map.on('mousemove', (e) => {
+		// 	if (this._coordinates === 'degrees') {
+		// 		coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
+		// 	} else {
+		// 		var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
+		// 		var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
+		// 		coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
+		// 	}
+		// });
+
 		map.on('mousemove', (e) => {
-			if (this._coordinates === 'degrees') {
-				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
+			if (this._coordinates === 'decimal') {
+				coordinateButton.innerHTML = "<strong>MGRS: </strong>" +  this.convertDDtoMGRS(e.latlng.lat, e.latlng.lng);
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
 			}
 		});
+
 
 		this._coordinateButton = coordinateButton;
 		return coordinateButton;
@@ -78,7 +89,11 @@ L.Control.CoordinateControl = L.Control.extend({
 			min : 0|D%1*60,
 			sec :(0|D*60%1*6000)/100
 		};
-	}
+	},
+	convertDDtoMGRS: function(lat, lng) { 
+		var mgrs = require("mgrs")
+		return (mgrs.forward([lat,lng]));	
+		},
 });
 
 L.control.coordinateControl = (opts) => {
