@@ -112,8 +112,13 @@ class CoordinatesControl extends MapControl {
 	}
 
 	updateLeafletElement(fromProps, toProps) {
-		
+		if (fromProps !== toProps) {
+			this.leafletElement._coordinates = toProps.coordinates
+
+			return this.control;
+		}
 	}
+
 }
 
 export default withLeaflet(CoordinatesControl);

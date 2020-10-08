@@ -8,13 +8,11 @@ export default class App extends Component {
 	constructor(props) {
 	super(props);
 		this.state = {
-		coord: ""
+		coord: "decimal"
 		};
 	}
 	handleChange(props) {
-		this.setState({ coord: props}, () => {
-		console.log(this.state.coord);
-	});
+		this.setState({'coord': props})
 	}
 	render () {
 
