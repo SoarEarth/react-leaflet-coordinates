@@ -21,7 +21,7 @@ export default class App extends Component {
 							url="https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"/>
 				
 						<CoordinatesControl 
-							coordinates="decimal"
+							coordinates="mgrs"
 							position="bottomleft"
 						/>
 

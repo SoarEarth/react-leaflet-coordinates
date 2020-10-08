@@ -45,15 +45,8 @@ L.Control.CoordinateControl = L.Control.extend({
 		map.on('mousemove', (e) => {
 			if (this._coordinates === 'degrees') {
 				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
-			} else {
-				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
-			}
-		});
-
-		map.on('mousemove', (e) => {
-			if (this._coordinates === 'decimal') {
+			} 
+			else if (this._coordinates === 'mgrs') {
 				coordinateButton.innerHTML = "<strong>MGRS: </strong>" +  this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat);
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
@@ -99,13 +92,6 @@ L.Control.CoordinateControl = L.Control.extend({
 			+ mgrsString.substring(10);
 		return mgrsString;	
 	},
-	convertMGRStoDD: function() {
-		var mgrs = require("mgrs")
-		var mgrsString = (mgrs.toPoint([lng,lat]));
-		return mgrsString;
-
-	}
-
 });
 
 L.control.coordinateControl = (opts) => {
