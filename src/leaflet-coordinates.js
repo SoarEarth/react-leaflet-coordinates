@@ -19,7 +19,8 @@ const coordinatesControlDefaultStyle = {
 	boxShadow: 'none',
 	color: '#333',
 	padding: '2px 2px',
-	minHeight: '18px'
+	minHeight: '18px',
+	cursor: "pointer"
 }
 
 L.Control.CoordinateControl = L.Control.extend({
@@ -37,20 +38,61 @@ L.Control.CoordinateControl = L.Control.extend({
 			this._style = reactToCSS(element.style);
 		}
 	},
+
 	onAdd: function(map) {
 		var coordinateButton = L.DomUtil.create('button');
 		coordinateButton.setAttribute('style',this._style);
-		coordinateButton.setAttribute('id', 'coorindate-control');
+		coordinateButton.setAttribute('id', 'coordinate-control-button');
+
+		coordinateButton.addEventListener('click', () => {
+			if (this._coordinates === 'degrees') {
+				this._coordinates = "mgrs"
+			} 
+			else if (this._coordinates === 'mgrs') {
+				this._coordinates = "decimal"
+
+			} else {
+				this._coordinates = "degrees"
+			}
+		});
 
 		map.on('mousemove', (e) => {
 			if (this._coordinates === 'degrees') {
-				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat) + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng);
+				coordinateButton.innerHTML = 
+				"<div id='coordinate-control-degrees-container'>" +
+					"<strong id='coordinate-control-degrees-title-lat'>Latitude: </strong>" +
+						"<div id='coordinate-control-degrees-body-lat'>" + 
+							this.convertDecimalLatToDegrees(e.latlng.lat) + 
+						"</div>" +
+						
+					"<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" +
+						"<div id='coordinate-control-degrees-body-lng'>" + 
+							this.convertDecimalLngToDegrees(e.latlng.lng) + 
+						"</div>" +
+				"</div>";
+			} 
+			else if (this._coordinates === 'mgrs') {
+				coordinateButton.innerHTML = 
+				"<div id='coordinate-control-mgrs-container'>" +
+					"<strong id='coordinate-control-mgrs-title'>MGRS: </strong>" +
+					"<div id='coordinate-control-mgrs-body>" 
+						this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat) + 
+					"</div>" + 
+				"</div>";
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				coordinateButton.innerHTML = "<strong>Latitude: </strong>" +lat + "&nbsp; <strong>Longitude: </strong>" + lng;
+				coordinateButton.innerHTML = 
+				"<div id='coordinate-control-decimal-container>" +
+					"<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
+					"<div id='coordinate-control-decimal-body-lat'>" + lat + "</div>" +
+
+					"<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" + 
+					"<div id='coordinate-control-decimal-body-lng'>" + lng + "</div>" + 
+				"</div>";
 			}
 		});
+
 
 		this._coordinateButton = coordinateButton;
 		return coordinateButton;
@@ -78,7 +120,16 @@ L.Control.CoordinateControl = L.Control.extend({
 			min : 0|D%1*60,
 			sec :(0|D*60%1*6000)/100
 		};
-	}
+	},
+	convertDDtoMGRS: function(lng, lat) { 
+		var mgrs = require("mgrs")
+		var mgrsString = (mgrs.forward([lng,lat]));
+		mgrsString = mgrsString.substring(0,2) + " "
+			+ mgrsString.substring(2,5) + " "
+			+ mgrsString.substring(5,10) + " "
+			+ mgrsString.substring(10);
+		return mgrsString;	
+	},
 });
 
 L.control.coordinateControl = (opts) => {
@@ -97,12 +148,21 @@ class CoordinatesControl extends MapControl {
 		this.control = L.control.coordinateControl({...props});
 		return this.control;
 	}
+
+	updateLeafletElement(fromProps, toProps) {
+		if (fromProps !== toProps) {
+			this.leafletElement._coordinates = toProps.coordinates
+
+			return this.control;
+		}
+	}
+
 }
 
 export default withLeaflet(CoordinatesControl);
 
 CoordinatesControl.propTypes = {
 	style: PropTypes.element,
-	coordinates: PropTypes.oneOf(['decimal', 'degrees']),
+	coordinates: PropTypes.oneOf(['decimal', 'degrees', 'mgrs']),
 	position: PropTypes.oneOf(['topright', 'topleft', 'bottomright', 'bottomleft'])
 }

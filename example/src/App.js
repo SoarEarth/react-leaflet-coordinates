@@ -4,8 +4,7 @@ import { Map, TileLayer } from 'react-leaflet'
 import { CoordinatesControl } from 'react-leaflet-box-zoom'
 
 export default class App extends Component {
-
-
+	
 	render () {
 
 		return (
@@ -15,10 +14,11 @@ export default class App extends Component {
 						center={[44.635, 22.653]}
 						zoom={12}
 						zoomControl={false} >
-
+					
 						<TileLayer
 							attribution=""
 							url="https://mt0.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"/>
+
 				
 						<CoordinatesControl 
 							coordinates="decimal"
