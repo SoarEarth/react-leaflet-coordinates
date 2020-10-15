@@ -1,4 +1,3 @@
-import { string } from 'prop-types'
 import React, { Component } from 'react'
 import { Map, TileLayer } from 'react-leaflet'
 
