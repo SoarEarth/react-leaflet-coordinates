@@ -42,7 +42,7 @@ L.Control.CoordinateControl = L.Control.extend({
 	onAdd: function(map) {
 		var coordinateButton = L.DomUtil.create('button');
 		coordinateButton.setAttribute('style',this._style);
-		coordinateButton.setAttribute('id', 'coordinate-control');
+		coordinateButton.setAttribute('id', 'coordinate-control-button');
 
 		coordinateButton.addEventListener('click', () => {
 			if (this._coordinates === 'degrees') {
@@ -58,15 +58,38 @@ L.Control.CoordinateControl = L.Control.extend({
 
 		map.on('mousemove', (e) => {
 			if (this._coordinates === 'degrees') {
-				coordinateButton.innerHTML = "<div id='coordinates-degrees'> <strong>Latitude: </strong>" +  this.convertDecimalLatToDegrees(e.latlng.lat)
-				 + " <strong>Longitude: </strong> " + this.convertDecimalLngToDegrees(e.latlng.lng) + "</div>";
+				coordinateButton.innerHTML = 
+				"<div id='coordinate-control-degrees-container'>" +
+					"<strong id='coordinate-control-degrees-title-lat'>Latitude: </strong>" +
+						"<div id='coordinate-control-degrees-body-lat'>" + 
+							this.convertDecimalLatToDegrees(e.latlng.lat) + 
+						"</div>" +
+						
+					"<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" +
+						"<div id='coordinate-control-degrees-body-lng'>" + 
+							this.convertDecimalLngToDegrees(e.latlng.lng) + 
+						"</div>" +
+				"</div>";
 			} 
 			else if (this._coordinates === 'mgrs') {
-				coordinateButton.innerHTML = "<div id='coordinates-mgrs'> <strong>MGRS: </strong>" +  this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat) + "</div>";
+				coordinateButton.innerHTML = 
+				"<div id='coordinate-control-mgrs-container'>" +
+					"<strong id='coordinate-control-mgrs-title'>MGRS: </strong>" +
+					"<div id='coordinate-control-mgrs-body>" 
+						this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat) + 
+					"</div>" + 
+				"</div>";
 			} else {
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				coordinateButton.innerHTML = "<div id=coordinates-decimal> <strong>Latitude: </strong>" + lat + "&nbsp; <strong>Longitude: </strong>" + lng + "</div>";
+				coordinateButton.innerHTML = 
+				"<div id='coordinate-control-decimal-container>" +
+					"<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
+					"<div id='coordinate-control-decimal-body-lat'>" + lat + "</div>" +
+
+					"<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" + 
+					"<div id='coordinate-control-decimal-body-lng'>" + lng + "</div>" + 
+				"</div>";
 			}
 		});
 
