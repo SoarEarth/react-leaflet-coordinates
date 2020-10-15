@@ -75,7 +75,7 @@ L.Control.CoordinateControl = L.Control.extend({
 				coordinateButton.innerHTML = 
 				"<div id='coordinate-control-mgrs-container'>" +
 					"<strong id='coordinate-control-mgrs-title'>MGRS: </strong>" +
-					"<div id='coordinate-control-mgrs-body>" 
+					"<div id='coordinate-control-mgrs-body'>" +
 						this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat) + 
 					"</div>" + 
 				"</div>";
@@ -83,7 +83,7 @@ L.Control.CoordinateControl = L.Control.extend({
 				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
 				coordinateButton.innerHTML = 
-				"<div id='coordinate-control-decimal-container>" +
+				"<div id='coordinate-control-decimal-container'>" +
 					"<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
 					"<div id='coordinate-control-decimal-body-lat'>" + lat + "</div>" +
 
