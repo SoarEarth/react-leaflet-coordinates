@@ -106,7 +106,7 @@ L.Control.CoordinateControl = L.Control.extend({
         if(longitude < -180) {
             return this.wrapLongitudeCoordinates(longitude + 360);
         } else if(longitude > 180) {
-            return this.wrapLongitudeCoordinates(-longitude);
+            return this.wrapLongitudeCoordinates(longitude - 360);
         } else {
             return longitude;
         }
