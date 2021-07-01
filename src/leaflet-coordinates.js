@@ -60,7 +60,6 @@ L.Control.CoordinateControl = L.Control.extend({
             this.generateHTML(e);
 		});
 
-
 		this._coordinateButton = coordinateButton;
 
         this.generateHTML();
