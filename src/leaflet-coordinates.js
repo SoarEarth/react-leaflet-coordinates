@@ -91,7 +91,7 @@ L.Control.CoordinateControl = L.Control.extend({
             "</div>";
         } else {
             var lat = e ? e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
-            var lng = e ? e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
+            var lng = e ? this.wrapLongitudeCoordinates(e.latlng.lng).toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
             this._coordinateButton.innerHTML = 
             "<div id='coordinate-control-decimal-container'>" +
                 "<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
@@ -101,6 +101,16 @@ L.Control.CoordinateControl = L.Control.extend({
                 "<div id='coordinate-control-decimal-body-lng'>" + lng + "</div>" + 
             "</div>";
         }
+    },
+    wrapLongitudeCoordinates: function(longitude) {
+        if(longitude < -180) {
+            return this.wrapLongitudeCoordinates(longitude + 360);
+        } else if(longitude > 180) {
+            return this.wrapLongitudeCoordinates(-longitude);
+        } else {
+            return longitude;
+        }
+        return longitude;
     },
 	convertDecimalLatToDegrees: function(lat) {
 		var dms = this.convertDDToDMS(lat, false);
