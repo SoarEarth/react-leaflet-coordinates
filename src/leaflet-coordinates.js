@@ -68,27 +68,32 @@ L.Control.CoordinateControl = L.Control.extend({
 	},
     generateHTML: function(e) {
         if (this._coordinates === 'degrees') {
+            var wrappedLng = this.wrapLongitudeCoordinates(e.latlng.lng)
+            var lat = e ? this.convertDecimalLatToDegrees(e.latlng.lat) : '';
+            var lng = e ? this.convertDecimalLngToDegrees(wrappedLng) : '';
             this._coordinateButton.innerHTML = 
             "<div id='coordinate-control-degrees-container'>" +
                 "<strong id='coordinate-control-degrees-title-lat'>Latitude: </strong>" +
                     "<div id='coordinate-control-degrees-body-lat'>" + 
-                        e && this.convertDecimalLatToDegrees(e.latlng.lat) + 
+                        lat + 
                     "</div>" +
                     
                 "<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" +
                     "<div id='coordinate-control-degrees-body-lng'>" + 
-                        e && this.convertDecimalLngToDegrees(e.latlng.lng) + 
+                        lng + 
                     "</div>" +
             "</div>";
         } 
         else if (this._coordinates === 'mgrs') {
-            this._coordinateButton.innerHTML = 
-            "<div id='coordinate-control-mgrs-container'>" +
-                "<strong id='coordinate-control-mgrs-title'>MGRS: </strong>" +
-                "<div id='coordinate-control-mgrs-body'>" +
-                    e && this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat) + 
-                "</div>" + 
-            "</div>";
+                var wrappedLng = this.wrapLongitudeCoordinates(e.latlng.lng)
+                var mgrs = e && this.convertDDtoMGRS(wrappedLng, e.latlng.lat);
+				this._coordinateButton.innerHTML = 
+				"<div id='coordinate-control-mgrs-container'>" +
+					"<strong id='coordinate-control-mgrs-title'>MGRS: </strong>" +
+					"<div id='coordinate-control-mgrs-body'>" +
+						mgrs + 
+					"</div>" + 
+				"</div>";
         } else {
             var lat = e ? e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
             var lng = e ? this.wrapLongitudeCoordinates(e.latlng.lng).toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
