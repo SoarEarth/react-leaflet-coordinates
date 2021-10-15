@@ -57,46 +57,66 @@ L.Control.CoordinateControl = L.Control.extend({
 		});
 
 		map.on('mousemove', (e) => {
-			if (this._coordinates === 'degrees') {
-				coordinateButton.innerHTML = 
-				"<div id='coordinate-control-degrees-container'>" +
-					"<strong id='coordinate-control-degrees-title-lat'>Latitude: </strong>" +
-						"<div id='coordinate-control-degrees-body-lat'>" + 
-							this.convertDecimalLatToDegrees(e.latlng.lat) + 
-						"</div>" +
-						
-					"<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" +
-						"<div id='coordinate-control-degrees-body-lng'>" + 
-							this.convertDecimalLngToDegrees(e.latlng.lng) + 
-						"</div>" +
-				"</div>";
-			} 
-			else if (this._coordinates === 'mgrs') {
-				coordinateButton.innerHTML = 
+            this.generateHTML(e);
+		});
+
+		this._coordinateButton = coordinateButton;
+
+        this.generateHTML();
+
+		return coordinateButton;
+	},
+    generateHTML: function(e) {
+        if (this._coordinates === 'degrees') {
+            var wrappedLng = this.wrapLongitudeCoordinates(e.latlng.lng)
+            var lat = e ? this.convertDecimalLatToDegrees(e.latlng.lat) : '';
+            var lng = e ? this.convertDecimalLngToDegrees(wrappedLng) : '';
+            this._coordinateButton.innerHTML = 
+            "<div id='coordinate-control-degrees-container'>" +
+                "<strong id='coordinate-control-degrees-title-lat'>Latitude: </strong>" +
+                    "<div id='coordinate-control-degrees-body-lat'>" + 
+                        lat + 
+                    "</div>" +
+                    
+                "<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" +
+                    "<div id='coordinate-control-degrees-body-lng'>" + 
+                        lng + 
+                    "</div>" +
+            "</div>";
+        } 
+        else if (this._coordinates === 'mgrs') {
+                var wrappedLng = this.wrapLongitudeCoordinates(e.latlng.lng)
+                var mgrs = e && this.convertDDtoMGRS(wrappedLng, e.latlng.lat);
+				this._coordinateButton.innerHTML = 
 				"<div id='coordinate-control-mgrs-container'>" +
 					"<strong id='coordinate-control-mgrs-title'>MGRS: </strong>" +
 					"<div id='coordinate-control-mgrs-body'>" +
-						this.convertDDtoMGRS(e.latlng.lng, e.latlng.lat) + 
+						mgrs + 
 					"</div>" + 
 				"</div>";
-			} else {
-				var lat = e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				var lng = e.latlng.lng.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false});
-				coordinateButton.innerHTML = 
-				"<div id='coordinate-control-decimal-container'>" +
-					"<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
-					"<div id='coordinate-control-decimal-body-lat'>" + lat + "</div>" +
+        } else {
+            var lat = e ? e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
+            var lng = e ? this.wrapLongitudeCoordinates(e.latlng.lng).toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
+            this._coordinateButton.innerHTML = 
+            "<div id='coordinate-control-decimal-container'>" +
+                "<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
+                "<div id='coordinate-control-decimal-body-lat'>" + lat + "</div>" +
 
-					"<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" + 
-					"<div id='coordinate-control-decimal-body-lng'>" + lng + "</div>" + 
-				"</div>";
-			}
-		});
-
-
-		this._coordinateButton = coordinateButton;
-		return coordinateButton;
-	},
+                "<strong id='coordinate-control-decimal-title-lng'>Longitude: </strong>" + 
+                "<div id='coordinate-control-decimal-body-lng'>" + lng + "</div>" + 
+            "</div>";
+        }
+    },
+    wrapLongitudeCoordinates: function(longitude) {
+        if(longitude < -180) {
+            return this.wrapLongitudeCoordinates(longitude + 360);
+        } else if(longitude > 180) {
+            return this.wrapLongitudeCoordinates(longitude - 360);
+        } else {
+            return longitude;
+        }
+        return longitude;
+    },
 	convertDecimalLatToDegrees: function(lat) {
 		var dms = this.convertDDToDMS(lat, false);
 		var dmsDeg = dms.deg.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false});
