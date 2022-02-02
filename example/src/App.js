@@ -23,7 +23,6 @@ export default class App extends Component {
 						<CoordinatesControl 
 							coordinates="decimal"
 							position="bottomleft"
-							latLngDefault={{lat: '10.00000000', lng: '20.00000000'}}
 						/>
 
 					</Map>
