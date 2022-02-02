@@ -29,7 +29,7 @@ L.Control.CoordinateControl = L.Control.extend({
 	_coordinates: 'decimal',
 	initialize: function(element) {
 		this.options.position = element.position;
-		
+		this.latLngDefault = element.latLngDefault || {lat: '0.00000000', lng: '0.00000000'};
 		this._coordinates = element.coordinates || 'decimal';
 
 		if (element.style === undefined) {
@@ -70,7 +70,7 @@ L.Control.CoordinateControl = L.Control.extend({
         if (this._coordinates === 'degrees') {
             var wrappedLng = this.wrapLongitudeCoordinates(e.latlng.lng)
             var lat = e ? this.convertDecimalLatToDegrees(e.latlng.lat) : '';
-            var lng = e ? this.convertDecimalLngToDegrees(wrappedLng) : '';
+            var lng = e ? this.convertDecimalLngToDegrees(wrappedLng) : ''; 
             this._coordinateButton.innerHTML = 
             "<div id='coordinate-control-degrees-container'>" +
                 "<strong id='coordinate-control-degrees-title-lat'>Latitude: </strong>" +
@@ -95,8 +95,8 @@ L.Control.CoordinateControl = L.Control.extend({
 					"</div>" + 
 				"</div>";
         } else {
-            var lat = e ? e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
-            var lng = e ? this.wrapLongitudeCoordinates(e.latlng.lng).toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}):'';
+            var lat = e ? e.latlng.lat.toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}): this.latLngDefault.lat;
+            var lng = e ? this.wrapLongitudeCoordinates(e.latlng.lng).toLocaleString('en-US', {minimumFractionDigits: 8, useGrouping:false}): this.latLngDefault.lng;
             this._coordinateButton.innerHTML = 
             "<div id='coordinate-control-decimal-container'>" +
                 "<strong id='coordinate-control-decimal-title-lat'>Latitude: </strong>" +
@@ -184,5 +184,6 @@ export default withLeaflet(CoordinatesControl);
 CoordinatesControl.propTypes = {
 	style: PropTypes.element,
 	coordinates: PropTypes.oneOf(['decimal', 'degrees', 'mgrs']),
-	position: PropTypes.oneOf(['topright', 'topleft', 'bottomright', 'bottomleft'])
+	position: PropTypes.oneOf(['topright', 'topleft', 'bottomright', 'bottomleft']),
+	latLngDefault: PropTypes.array
 }
